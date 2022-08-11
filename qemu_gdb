@@ -82,6 +82,9 @@ qemu-system-x86_64 -cpu help
 qemu-system-x86_64 -machine help
 qemu/build/qemu-system-x86_64 -kernel bzImage -hda rootfs.img -append "root=/dev/sda console=ttyS0" -nographic -smp cpus=8
 
+mount
+mount -o remount,rw /
+
 使用gdb调试：
 1.qemu/build/qemu-system-x86_64 -kernel bzImage -hda rootfs.img -append "root=/dev/sda console=ttyS0" -nographic -smp cpus=8 -S -s
 2.gdb -ex "file /home/mi/source/android_source/kernel/kernel-5.18-rc5/linux/vmlinux" -ex "target remote:1234"
