@@ -81,6 +81,9 @@ qemu-system-x86_64 --help
 qemu-system-x86_64 -cpu help
 qemu-system-x86_64 -machine help
 qemu/build/qemu-system-x86_64 -kernel bzImage -hda rootfs.img -append "root=/dev/sda console=ttyS0" -nographic -smp cpus=8
+或者
+cp /boot/initrd.img-5.19.0-rc3+ .
+qemu/build/qemu-system-x86_64 -kernel bzImage -initrd initrd.img-5.19.0-rc3+ -append "root=/dev/sda console=ttyS0" -nographic -smp cpus=8 -m 4096M
 
 mount
 mount -o remount,rw /
@@ -90,6 +93,8 @@ mount -t sysfs sysfs /sys (mount -t sysfs none /sys)
 ls -l /sys
 
 使用gdb调试：
+CONFIG_DEBUG_INFO
+CONFIG_GDB_SCRIPTS
 1.qemu/build/qemu-system-x86_64 -kernel bzImage -hda rootfs.img -append "root=/dev/sda console=ttyS0" -nographic -smp cpus=8 -S -s
 2.gdb -ex "file /home/mi/source/android_source/kernel/kernel-5.18-rc5/linux/vmlinux" -ex "target remote:1234"
 (gdb) break start_kernel
