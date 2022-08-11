@@ -84,6 +84,10 @@ qemu/build/qemu-system-x86_64 -kernel bzImage -hda rootfs.img -append "root=/dev
 
 mount
 mount -o remount,rw /
+mkdir /sys
+cat /proc/filesystems
+mount -t sysfs sysfs /sys (mount -t sysfs none /sys)
+ls -l /sys
 
 使用gdb调试：
 1.qemu/build/qemu-system-x86_64 -kernel bzImage -hda rootfs.img -append "root=/dev/sda console=ttyS0" -nographic -smp cpus=8 -S -s
