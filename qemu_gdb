@@ -37,6 +37,8 @@ git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
 https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
 https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux.git
 
+git log --date-order --graph --tags --simplify-by-decoration --pretty=format'%ai %h %d'
+
 make menuconfig
 make
 
