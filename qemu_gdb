@@ -1,0 +1,96 @@
+*************************************************************************************************************************
+
+方法一： 通过源码编译安装：
+
+*************************************************************************************************************************
+
+1. 下载源码并编译busybox:
+https://busybox.net
+git clone git://busybox.net/busybox.git
+cd busybox
+git branch -a
+git checkout -b test_stable remotes/origin/1_NN_stable
+git pull
+
+make menuconfig(static)
+make
+make install CONFIG_PREFIX=/home/mi/source/myfs
+
+2. 下载源码并编译qemu:
+https://www.qemu.org
+git clone https://gitlab.com/qemu-project/qemu.git
+cd qemu
+git submodule init
+git submodule update --recursive
+sudo apt-get install libpixman-1-dev
+sudo apt-get install libmount-dev
+sudo apt-get install libglib2.0-dev
+sudo apt-get install pkg-config
+sudo apt-get install ninja-build
+./configure
+make
+make install
+
+3. 下载源码并编译kernel:
+https://kernel.org
+git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux.git
+
+make menuconfig
+make
+
+4.arm-linux-gcc
+...
+5.gdb
+...
+
+*************************************************************************************************************************
+
+方法二： 通过Ubuntu apt进行：
+
+*************************************************************************************************************************
+
+安装busybox:
+sudo apt-get install busybox
+
+安装qemu
+sudo apt-get install qemu
+
+创建img:
+dd if=/dev/zero of=rootfs.img bs=4096 count=100000
+
+格式化fs:
+mkfs.ext4 rootfs.img
+
+挂载img到本地目录:
+sudo mount -t ext4 rootfs.img -o loop /home/mi/source/myfs
+
+安装busybox到本地目录:
+make install CONFIG_PREFIX=/home/mi/source/myfs
+
+创建必要dir:
+sudo mkdir proc dev etc home mnt
+sudo cp -r busybox/examples/bootfloppy/etc/* /home/mi/source/myfs/etc/
+
+卸载img:
+sudo umount myfs
+
+运行qemu:
+qemu-system-x86_64 --help
+qemu-system-x86_64 -cpu help
+qemu-system-x86_64 -machine help
+qemu/build/qemu-system-x86_64 -kernel bzImage -hda rootfs.img -append "root=/dev/sda console=ttyS0" -nographic -smp cpus=8
+
+使用gdb调试：
+1.qemu/build/qemu-system-x86_64 -kernel bzImage -hda rootfs.img -append "root=/dev/sda console=ttyS0" -nographic -smp cpus=8 -S -s
+2.gdb -ex "file /home/mi/source/android_source/kernel/kernel-5.18-rc5/linux/vmlinux" -ex "target remote:1234"
+(gdb) break start_kernel
+(gdb) c
+
+退出qemu:
+ctrl + a, x
+
+退出gdb:
+ctrl+d
+
