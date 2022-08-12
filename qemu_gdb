@@ -87,6 +87,12 @@ qemu/build/qemu-system-x86_64 -kernel bzImage -hda rootfs.img -append "root=/dev
 cp /boot/initrd.img-5.19.0-rc3+ .
 qemu/build/qemu-system-x86_64 -kernel bzImage -initrd initrd.img-5.19.0-rc3+ -append "root=/dev/sda console=ttyS0" -nographic -smp cpus=8 -m 4096M
 
+$ file rootfs.img
+rootfs.img: Linux rev 1.0 ext4 filesystem data, UUID=e94a1dc5-ba43-49a9-bdcf-939bada00c75 (extents) (64bit) (large files) (huge files)
+
+$ file /boot/initrd.img-5.19.0-rc3+
+/boot/initrd.img-5.19.0-rc3+: ASCII cpio archive (SVR4 with no CRC)
+
 mount
 mount -o remount,rw /
 mkdir /sys
